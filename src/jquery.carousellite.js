@@ -250,18 +250,18 @@ $.fn.jCarouselLite = function(o) {
         div.css(sizeCss, divSize+"px");                     // Width of the DIV. length of visible images
 
         if(o.btnPrev)
-            $(o.btnPrev).click(function() {
+            $(o.btnPrev, div).click(function() {
                 return go(curr-o.scroll);
             });
 
         if(o.btnNext)
-            $(o.btnNext).click(function() {
+            $(o.btnNext, div).click(function() {
                 return go(curr+o.scroll);
             });
 
         if(o.btnGo)
             $.each(o.btnGo, function(i, val) {
-                $(val).click(function() {
+                $(val, div).click(function() {
                     return go(o.circular ? o.visible+i : i);
                 });
             });
