@@ -67,6 +67,7 @@
  *      btnNext: ".next",
  *      btnPrev: ".prev",
  *      btnGo: [".0", ".1", ".2"]
+ *      btnGoActive: '.active',
  * });
  * @desc If you don't want next and previous buttons for navigation, instead you prefer custom navigation based on
  * the item number within the carousel, you can use this option. Just supply an array of selectors for each element
@@ -206,6 +207,7 @@ $.fn.jCarouselLite = function(o) {
         btnPrev: null,
         btnNext: null,
         btnGo: null,
+        btnGoActive: '',
         mouseWheel: false,
         auto: null,
 
@@ -264,6 +266,7 @@ $.fn.jCarouselLite = function(o) {
                 $(val, div).click(function() {
                     return go(o.circular ? o.visible+i : i);
                 });
+                $( o.btnGo[0], div).addClass( o.btnGoActive );
             });
 
         if(o.mouseWheel && div.mousewheel)
@@ -311,6 +314,18 @@ $.fn.jCarouselLite = function(o) {
                         running = false;
                     }
                 );
+
+                if(o.btnGo) {
+                    $( o.btnGo.join(','), div).removeClass( o.btnGoActive );
+                    if(o.circular) {
+                        var goIndex = (curr == itemLength -1) ? 0 : (curr == 0) ? itemLength - 1 : curr - 1;
+                    } else {
+                        var goIndex = curr;
+                    }
+
+                    $( o.btnGo[goIndex], div).addClass( o.btnGoActive );
+                }
+
                 // Disable buttons when the carousel reaches the last/first, and enable when not
                 if(!o.circular) {
                     $(o.btnPrev + "," + o.btnNext).removeClass("disabled");
